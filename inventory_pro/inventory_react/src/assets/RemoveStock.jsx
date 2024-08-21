@@ -19,21 +19,11 @@ const RemoveStock = () => {
         <form onSubmit={handleSubmit}>
             <div>
                 <label>SubVariant ID:</label>
-                <input
-                    type="text"
-                    value={subvariantId}
-                    onChange={handleSubvariantIdChange}
-                    required
-                />
+                <input type="text" value={subvariantId} onChange={handleSubvariantIdChange} required />
             </div>
             <div>
                 <label>Stock to Remove:</label>
-                <input
-                    type="number"
-                    value={stock}
-                    onChange={handleStockChange}
-                    required
-                />
+                <input type="number" value={stock} onChange={handleStockChange} required />
             </div>
             <button type="submit">Remove Stock</button>
         </form>
@@ -41,4 +31,3 @@ const RemoveStock = () => {
 };
 
 export default RemoveStock;
-

@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-@tm$o)7gvx@5l$ka#3)(bbnw$r1eo&b#(6sngqsw#b%-6yf9o_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = []#'localhost', '127.0.0.1'
 
 
 
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'versatileimagefield',
+    
 ]
 
 MIDDLEWARE = [
@@ -57,20 +58,15 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
-# CORS_ALLOW_ALL_ORIGINS = True  # or specify allowed origins
-
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Adjust the port if necessary
+    "http://localhost:3000",
 ]
 
 ROOT_URLCONF = 'inventory_pro.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-
-        'DIRS': [os.path.join(BASE_DIR, 'inventory_react/dist')],
-
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],  # Updated directory path
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -135,14 +131,37 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Directory where static files are collected
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'inventory_react', 'src', 'assets')]
 
-# Additional directories where Django will search for static files
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static/react'),  # Adjust if you put React build files elsewhere
-]
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+}
+
+# CORS settings
+CORS_ALLOW_ALL_ORIGINS = True  # To allow React to access the API
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',
+    },
+}

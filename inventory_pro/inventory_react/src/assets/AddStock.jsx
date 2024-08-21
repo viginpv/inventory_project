@@ -10,35 +10,20 @@ const AddStock = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post(`http://127.0.0.1:8000/api/stock/add/${subvariantId}/`, { stock })
+        axios.post(`/api/stock/add/${subvariantId}/`, { stock })
             .then(response => alert('Stock added successfully!'))
-            .catch(error => {
-                console.error('Error details:', error);
-                const errorMessage = error.response?.data?.error || error.message;
-                alert('Error adding stock: ' + errorMessage);
-            });
+            .catch(error => alert('Error adding stock.'));
     };
-    
 
     return (
         <form onSubmit={handleSubmit}>
             <div>
                 <label>SubVariant ID:</label>
-                <input
-                    type="text"
-                    value={subvariantId}
-                    onChange={handleSubvariantIdChange}
-                    required
-                />
+                <input type="text" value={subvariantId} onChange={handleSubvariantIdChange} required />
             </div>
             <div>
                 <label>Stock to Add:</label>
-                <input
-                    type="number"
-                    value={stock}
-                    onChange={handleStockChange}
-                    required
-                />
+                <input type="number" value={stock} onChange={handleStockChange} required />
             </div>
             <button type="submit">Add Stock</button>
         </form>
