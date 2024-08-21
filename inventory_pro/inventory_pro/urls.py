@@ -1,32 +1,13 @@
-"""
-URL configuration for inventory_pro project.
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from inventory_app.views import ProductViewSet, add_stock, remove_stock
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
-from django.contrib import admin
-from django.urls import path,include
-from django.conf.urls.static import static
-from django.views.generic import TemplateView
-from django.conf import settings
+# Create a router and register our viewsets with it.
+router = DefaultRouter()
+router.register(r'products', ProductViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('',include('inventory_app.urls')),
+    path('', include(router.urls)),  # Base URL for the ProductViewSet routes
+    path('api/add-stock/', add_stock, name='add-stock'),  # Function-based view for adding stock
+    path('api/remove-stock/', remove_stock, name='remove-stock'),  # Function-based view for removing stock
 ]
-
-urlpatterns += [path('', TemplateView.as_view(template_name='index.html'))]
-
-# Serve media files during development
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
